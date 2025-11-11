@@ -1,4 +1,5 @@
 # Agent-to-Human-Agent
+Are you tired of being pinged multiple times per day on Slack, email, phone etc by your coworkers, stakeholders and random people requesting your input and support? Now imagine a world where an AI agent running in the cloud has your contacts and can reach out to ask for support. Do you think it's a nightmare? You might ctually be right, but it's worth trying it anyway :D
 
 ![A2HA CLI](./docs/images/a2ha_cli.png)
 
@@ -6,7 +7,7 @@ This is an experiment to explore how Agent-to-Agent (A2A) communication can work
 
 ## Overview
 
-Are you tired of being pinged multiple times per day on Slack, email, phone etc by your coworkers, stakeholders and random people requesting your input and support? Now imagine a world where an AI agent running in the cloud has your contacts and can reach out to ask for support. Do you think it's a nightmare? You might ctually be right, but it's worth trying it anyway :D
+
 
 This project demonstrates a human-in-the-loop workflow where an AI agent (built with Mastra) can pause its execution, request help from a human agent, and automatically resume when the human responds. The system uses the A2A protocol to bridge the gap between automated AI agents and human oversight.
 
