@@ -1,8 +1,12 @@
 # Agent-to-Human-Agent
 
+![A2HA CLI](./docs/images/a2ha_cli.png)
+
 This is an experiment to explore how Agent-to-Agent (A2A) communication can work, specifically demonstrating how an AI agent can seamlessly interact with human agents through a proxy system.
 
 ## Overview
+
+Are you tired of being pinged multiple times per day on Slack, email, phone etc by your coworkers, stakeholders and random people requesting your input and support? Now imagine a world where an AI agent running in the cloud has your contacts and can reach out to ask for support. Do you think it's a nightmare? You might ctually be right, but it's worth trying it anyway :D
 
 This project demonstrates a human-in-the-loop workflow where an AI agent (built with Mastra) can pause its execution, request help from a human agent, and automatically resume when the human responds. The system uses the A2A protocol to bridge the gap between automated AI agents and human oversight.
 
@@ -13,6 +17,9 @@ The system consists of three main components:
 1. **Mastra A2A Agent** (`mastra-a2a-agent/`) - A CLI-based AI agent that can contact human agents
 2. **Human Agent Proxy** (`human-agent-proxy/`) - An A2HA server that manages tasks and routes messages
 3. **Fake Slack** (`fake-slack/`) - A demo UI (Next.js app) that simulates a Slack-like interface for human interaction
+
+![Fake-slack](./docs/images/fake_slack.png)
+
 
 ## How It Works
 
@@ -177,29 +184,12 @@ Response from team member: Sure, I can help with that technical question!
 - `"Contact the tech lead about an urgent issue"` - The agent will identify the tech lead and send a message
 - `"exit"` - Exit the CLI
 
-## Project Structure
-
-```
-agent-to-human-agent/
-├── mastra-a2a-agent/          # Mastra agent with A2A client integration
-│   └── src/
-│       ├── mastra/            # Agent configuration and tools
-│       ├── a2a/               # A2A client implementation
-│       └── webhook/           # Webhook handler for task updates
-├── human-agent-proxy/         # A2HA server implementation
-│   ├── server.ts              # Main server with A2A Express app
-│   └── contactTeamMember.ts   # Logic for contacting team members
-└── fake-slack/                # Demo UI (Next.js app)
-    └── app/                   # Next.js app routes and pages
-```
-
 ## Technologies Used
 
 - **Mastra** - AI agent framework
 - **A2A SDK** - Agent-to-Agent communication protocol
 - **Express** - Web server framework
 - **Next.js** - React framework for the demo UI
-- **TypeScript** - Type-safe development
 
 ## Notes
 
