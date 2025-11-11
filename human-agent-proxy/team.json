@@ -1,0 +1,28 @@
+{
+  "team": [
+    {
+      "name": "Frank Doe",
+      "role": "Product Manager",
+      "description": "The Product Manager is responsible for the product roadmap and features. You can reach out to him for any product questions or concerns. For example, while writing a specification, you can ask Frank for clarification on the requirements if something is not clear.",
+      "channels": [
+        {
+          "type": "fake-slack",
+          "contactInfo": "@frank",
+          "preferred": true
+        }
+      ]
+    },
+    {
+      "name": "John Doe",
+      "role": "Software Engineer",
+      "description": "The Software Engineer is responsible for the development of the software. You can reach out to him for any technical questions or concerns. John is the architect of the product, so he can provide insights on the technical details of the product.",
+      "channels": [
+        {
+          "type": "fake-slack",
+          "contactInfo": "@john",
+          "preferred": true
+        }
+      ]
+    }
+  ]
+}
