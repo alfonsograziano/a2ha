@@ -42,6 +42,15 @@ const humanAgentProxyCard: AgentCard = {
         "Get information about all the team members, their roles and responsibilities, and their contact information.",
       tags: ["team"],
     },
+    {
+      id: "contact-team-member",
+      name: "Contact Team Member",
+      description:
+        "Contact a team member via a specific channel. The channel is determined by the team member's capabilities.",
+      tags: ["team"],
+      inputModes: ["application/json"],
+      outputModes: ["application/json"],
+    },
   ],
   capabilities: {
     extensions: [],
@@ -68,46 +77,41 @@ class HumanAgentProxyExecutor implements AgentExecutor {
     const { taskId, contextId, userMessage, task } = requestContext;
 
     const fisrstPart = userMessage.parts[0];
-    if (fisrstPart.kind === "data") {
-      const requestData = fisrstPart.data;
-      if (requestData.skill === "get-team-information") {
-        const teamInfo = await getTeamInformation();
-        const responseMessage: Message = {
-          kind: "message",
-          messageId: uuidv4(),
-          role: "agent",
-          parts: [{ kind: "data", data: teamInfo }],
-          contextId: requestContext.contextId,
-        };
-        eventBus.publish(responseMessage);
-        eventBus.finished();
-        return;
-      }
+    if (fisrstPart.kind !== "data") {
+      eventBus.finished();
+      return;
+    }
 
-      if (requestData.skill === "contact-team-member") {
-        if (!task) {
-          await contactTeamMember(
-            taskId,
-            requestData.params as ContactTeamMember
-          );
+    const requestData = fisrstPart.data;
+    if (requestData.skill === "get-team-information") {
+      const teamInfo = await getTeamInformation();
+      const responseMessage: Message = {
+        kind: "message",
+        messageId: uuidv4(),
+        role: "agent",
+        parts: [{ kind: "data", data: teamInfo }],
+        contextId: requestContext.contextId,
+      };
+      eventBus.publish(responseMessage);
+      eventBus.finished();
+      return;
+    }
 
-          const initialTask: Task = {
-            kind: "task",
-            id: taskId,
-            contextId: contextId,
-            status: {
-              state: "submitted",
-              timestamp: new Date().toISOString(),
-            },
-            history: [userMessage],
-          };
+    if (requestData.skill === "contact-team-member") {
+      await contactTeamMember(taskId, requestData.params as ContactTeamMember);
 
-          eventBus.publish(initialTask);
-          eventBus.finished();
-          return;
-        }
-      }
-    } else {
+      const initialTask: Task = {
+        kind: "task",
+        id: taskId,
+        contextId: contextId,
+        status: {
+          state: "submitted",
+          timestamp: new Date().toISOString(),
+        },
+        history: [userMessage],
+      };
+
+      eventBus.publish(initialTask);
       eventBus.finished();
       return;
     }

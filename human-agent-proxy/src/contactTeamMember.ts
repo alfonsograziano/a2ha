@@ -37,6 +37,12 @@ export const contactTeamMember = async (
   if (contactTeamMember.channel === "fake-slack") {
     return contactTeamMemberByFakeSlack(taskId, contactTeamMember);
   }
+
+  throw new Error(
+    "Handler for channel not implemented: " +
+      contactTeamMember.channel +
+      " please use a different contact channel if available"
+  );
 };
 
 const contactTeamMemberByFakeSlack = async (
