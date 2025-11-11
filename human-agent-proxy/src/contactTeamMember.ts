@@ -15,26 +15,18 @@ export const contactTeamMember = async (
   taskId: string,
   contactTeamMember: ContactTeamMember
 ) => {
-  console.log(
-    `Contacting team member on ${contactTeamMember.channel} with ${contactTeamMember.contactInfo}`
-  );
-
   // Validate if this team member is available to be contacted via the channel
   const teamInfo = await getTeamInformation();
   const team = teamInfo.team || [];
 
   const teamMemberExists = team.some((member: any) => {
-    console.log("member", JSON.stringify(member, null, 2));
     const channelExists = member.channels?.some(
       (channel: any) =>
         channel.type === contactTeamMember.channel &&
         channel.contactInfo === contactTeamMember.contactInfo
     );
-    console.log("channelExists", channelExists, member.name);
     return channelExists;
   });
-
-  console.log("teamMemberExists", teamMemberExists);
 
   if (!teamMemberExists) {
     throw new Error(

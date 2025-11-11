@@ -65,11 +65,6 @@ class HumanAgentProxyExecutor implements AgentExecutor {
     requestContext: RequestContext,
     eventBus: ExecutionEventBus
   ): Promise<void> {
-    console.log(
-      "Executing request context:",
-      JSON.stringify(requestContext, null, 2)
-    );
-
     const { taskId, contextId, userMessage, task } = requestContext;
 
     const fisrstPart = userMessage.parts[0];
@@ -150,10 +145,6 @@ expressApp.use(cors());
 expressApp.post("/webhook/task-updates", async (req, res) => {
   try {
     const body = req.body;
-    console.log(
-      "Task updates webhook received:",
-      JSON.stringify(body, null, 2)
-    );
 
     let taskId: string;
     let userResponseText: string | undefined;
@@ -227,7 +218,6 @@ expressApp.post("/webhook/task-updates", async (req, res) => {
 
     // Save the updated task
     await taskStore.save(existingTask);
-    console.log("Task updated in store:", existingTask.id);
 
     // Publish a TaskStatusUpdateEvent to notify subscribers
     const statusUpdate: TaskStatusUpdateEvent = {
@@ -240,17 +230,10 @@ expressApp.post("/webhook/task-updates", async (req, res) => {
       },
       final: true,
     };
-
-    console.log(
-      "Publishing status update:",
-      JSON.stringify(statusUpdate, null, 2)
-    );
     eventBus.publish(statusUpdate);
 
     // Send push notification
     await pushNotificationSender.send(existingTask);
-    console.log("Push notification sent for task:", id);
-
     // Mark the event bus as finished
     eventBus.finished();
 

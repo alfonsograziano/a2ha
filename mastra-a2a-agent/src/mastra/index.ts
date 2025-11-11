@@ -77,10 +77,10 @@ app.listen(4001, async () => {
     });
     printAgentMessage(result.text);
 
-    fs.writeFileSync(
-      new Date().toISOString() + "-result.json",
-      JSON.stringify(result, null, 2)
-    );
+    // fs.writeFileSync(
+    //   new Date().toISOString() + "-result.json",
+    //   JSON.stringify(result, null, 2)
+    // );
 
     // Check if the "contactHumanAgentTool" has been called in the result
     const contactAgentToolCalledAndSucceeded =
