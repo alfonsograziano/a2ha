@@ -56,10 +56,16 @@ This email is written by an AI automation called A2HA`;
   try {
     // Send email
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Email sent successfully to ${toEmail} for task ${taskId}:`, info.messageId);
+    console.log(
+      `Email sent successfully to ${toEmail} for task ${taskId}:`,
+      info.messageId
+    );
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error(`Error sending email to ${toEmail} for task ${taskId}:`, error);
+    console.error(
+      `Error sending email to ${toEmail} for task ${taskId}:`,
+      error
+    );
     throw error;
   }
 };
@@ -118,7 +124,7 @@ const processIncomingEmail = async (email: any) => {
 
     // Extract email text content
     const emailText = email.text || email.html || "";
-    
+
     // Forward the email text to the task
     await sendNotificationToTask(taskId, emailText);
     console.log(`Forwarded email response to task ${taskId}`);
@@ -132,7 +138,9 @@ const processIncomingEmail = async (email: any) => {
  */
 export const setupEmailListener = () => {
   if (!IMAP_CONFIG.user || !IMAP_CONFIG.password) {
-    console.warn("IMAP credentials not configured. Email listener will not start.");
+    console.warn(
+      "IMAP credentials not configured. Email listener will not start."
+    );
     return;
   }
 
@@ -233,4 +241,3 @@ export const setupEmailListener = () => {
 
   return imap;
 };
-
