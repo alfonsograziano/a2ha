@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { getTeamInformation } from "./utils.ts";
+import { contactTeamMemberByEmail } from "./emailUtils.ts";
 
 export const contactTeamMemberSchema = z.object({
   channel: z.string().describe("The channel to contact the team member on"),
@@ -36,6 +37,14 @@ export const contactTeamMember = async (
 
   if (contactTeamMember.channel === "fake-slack") {
     return contactTeamMemberByFakeSlack(taskId, contactTeamMember);
+  }
+
+  if (contactTeamMember.channel === "email") {
+    return contactTeamMemberByEmail(
+      taskId,
+      contactTeamMember.contactInfo,
+      contactTeamMember.message
+    );
   }
 
   throw new Error(

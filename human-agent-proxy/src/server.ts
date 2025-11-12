@@ -4,6 +4,7 @@ import cors from "cors";
 import { appBuilder } from "./agentUtils.ts";
 import { sendNotificationToTask } from "./sendNotification.ts";
 import { SERVER_PORT } from "./agentUtils.ts";
+import { setupEmailListener } from "./emailUtils.ts";
 
 const expressApp = appBuilder.setupRoutes(express());
 
@@ -32,4 +33,8 @@ expressApp.post("/webhook/task-updates", async (req, res) => {
 
 expressApp.listen(SERVER_PORT, () => {
   console.log(`🚀 Server started on http://localhost:${SERVER_PORT}`);
+
+  // Start email listener
+  console.log("📧 Starting email listener...");
+  setupEmailListener();
 });
