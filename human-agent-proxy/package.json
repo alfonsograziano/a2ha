@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-server": "tsx --watch ./src/server.ts"
+    "start-server": "tsx --env-file .env --watch ./src/server.ts",
+    "test-email": "tsx --env-file .env ./src/connectors/emailConnectorTester.ts"
   },
   "author": "",
   "license": "ISC",

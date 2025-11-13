@@ -21,6 +21,11 @@
           "type": "fake-slack",
           "contactInfo": "@john",
           "preferred": true
+        },
+        {
+          "type": "email",
+          "contactInfo": "test@example.com",
+          "preferred": false
         }
       ]
     }
