@@ -41,7 +41,11 @@ async function main() {
     console.log("\nSending test email...");
     await emailConnector.sendEmail(
       uuidv4().toString(),
-      "This is a test email from the email connector tester.",
+      {
+        channel: "email",
+        contactInfo: TEST_EMAIL,
+        message: "This is a test email from the email connector tester.",
+      },
       {
         to: TEST_EMAIL,
       }
