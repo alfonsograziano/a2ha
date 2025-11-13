@@ -11,33 +11,23 @@ const expressApp = appBuilder.setupRoutes(express());
 expressApp.use(bodyParser.json());
 expressApp.use(cors());
 
-// Example Express.js webhook endpoint
-expressApp.post("/webhook/task-updates", async (req, res) => {
-  try {
-    const body = req.body;
-
-    const { taskId: taskIdFromBody, answer: userResponseTextFromBody } = body;
-
-    if (!taskIdFromBody || !userResponseTextFromBody) {
-      return res.status(400).json({ error: "Invalid payload format" });
-    }
-
-    await sendNotificationToTask(taskIdFromBody, userResponseTextFromBody);
-
-    return res.status(200).json({ received: true, taskId: taskIdFromBody });
-  } catch (error) {
-    console.error("Error processing webhook:", error);
-    return res.status(500).json({ error: error.message });
-  }
-});
-
-expressApp.listen(SERVER_PORT, () => {
+expressApp.listen(SERVER_PORT, async () => {
   console.log(`🚀 Server started on http://localhost:${SERVER_PORT}`);
 
   // Start email listener
-});
+  console.log("📧 Starting email listener...");
+  availableConnectors.email.startEmailListener(sendNotificationToTask);
+  console.log("Email listener started. Waiting for incoming emails...");
 
-console.log("📧 Starting email listener...");
-availableConnectors.email.startEmailListener(sendNotificationToTask);
-console.log("Email listener started. Waiting for incoming emails...");
-console.log("Press Ctrl+C to stop.");
+  // Start fake-slack listener
+  if (availableConnectors["fake-slack"]) {
+    console.log("💬 Starting fake-slack listener...");
+    await availableConnectors["fake-slack"].startFakeSlackListener(
+      expressApp,
+      sendNotificationToTask
+    );
+    console.log("Fake-slack listener started. Waiting for webhook messages...");
+  }
+
+  console.log("Press Ctrl+C to stop.");
+});

@@ -36,7 +36,10 @@ export const contactTeamMember = async (
   }
 
   if (contactTeamMember.channel === "fake-slack") {
-    return contactTeamMemberByFakeSlack(taskId, contactTeamMember);
+    return availableConnectors["fake-slack"]?.sendMessage(
+      taskId,
+      contactTeamMember
+    );
   }
 
   if (contactTeamMember.channel === "email") {
@@ -48,21 +51,4 @@ export const contactTeamMember = async (
       contactTeamMember.channel +
       " please use a different contact channel if available"
   );
-};
-
-const contactTeamMemberByFakeSlack = async (
-  taskId: string,
-  contactTeamMember: ContactTeamMember
-) => {
-  const FAKE_SLACK_API_URL = "http://localhost:5000/api/contact-team-member";
-  const response = await fetch(FAKE_SLACK_API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      from: "@human-agent-proxy",
-      to: contactTeamMember.contactInfo,
-      message: contactTeamMember.message,
-      taskId: taskId,
-    }),
-  });
-  return response.json();
 };

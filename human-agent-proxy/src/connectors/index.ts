@@ -1,4 +1,5 @@
 import { EmailConnector } from "./email/EmailConnector";
+import { FakeSlackConnector } from "./fake-slack/FakeSlackConnector";
 
 const emailConnector = new EmailConnector(
   {
@@ -20,6 +21,13 @@ const emailConnector = new EmailConnector(
   }
 );
 
+const fakeSlackConnector = new FakeSlackConnector({
+  apiUrl:
+    process.env.FAKE_SLACK_API_URL ||
+    "http://localhost:5000/api/contact-team-member",
+});
+
 export const availableConnectors = {
   email: emailConnector,
+  "fake-slack": fakeSlackConnector,
 };
